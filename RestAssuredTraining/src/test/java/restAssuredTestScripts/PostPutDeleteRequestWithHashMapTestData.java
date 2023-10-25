@@ -10,7 +10,7 @@ import static org.hamcrest.Matchers.*;
 
 import java.util.HashMap;
 
-public class PostRequestWithHashMapTestData {
+public class PostPutDeleteRequestWithHashMapTestData {
 	int ID;
 	@Test(priority=1)
 	void postRequestValidation() {
@@ -39,6 +39,17 @@ public class PostRequestWithHashMapTestData {
 			.put("https://reqres.in/api/users/"+ID)
 		.then()
 			.statusCode(200)
+			.log().all();
+	}
+	
+	@Test(priority=3, dependsOnMethods={"updatePreviousRequest"})
+	void deleteMethodValidation() {
+		given()
+			.contentType("application/json")
+		.when()
+			.delete("https://reqres.in/api/users/"+ID)
+		.then()
+			.statusCode(204)
 			.log().all();
 	}
 
